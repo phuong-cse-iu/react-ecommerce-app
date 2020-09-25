@@ -1,28 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import "./App.css";
+import './App.css';
 
-import HomePage from "./pages/homepage/homepage.component";
-import ShopPage from "./pages/shop/shop.component";
-import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
-import Header from "./components/header/header.component";
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import HomePage from './pages/homepage/homepage.component';
+import ShopPage from './pages/shop/shop.component';
+import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import Header from './components/header/header.component';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { setCurrentUser } from './redux/user/user.action';
 
-import FirebaseUserContext from './context/firebase-user';
-
-function App() {
-  const [currentUser, setCurrentUser] = useState(null);
-
+function App({ setCurrentUser, ...props }) {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
-        userRef.onSnapshot(snapShot => {
+        userRef.onSnapshot((snapShot) => {
           setCurrentUser({
             id: snapShot.id,
-            ...snapShot.data()
+            ...snapShot.data(),
           });
         });
       } else {
@@ -37,17 +35,19 @@ function App() {
   }, []);
 
   return (
-    <FirebaseUserContext.Provider value={currentUser}>
-      <div>
-        <Header />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route path="/signin" component={SignInAndSignUpPage} />
-        </Switch>
-      </div>
-    </FirebaseUserContext.Provider>
+    <div>
+      <Header />
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/shop" component={ShopPage} />
+        <Route path="/signin" component={SignInAndSignUpPage} />
+      </Switch>
+    </div>
   );
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(null, mapDispatchToProps)(App);

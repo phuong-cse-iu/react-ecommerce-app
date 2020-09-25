@@ -1,17 +1,14 @@
 import { auth } from '../../firebase/firebase.utils';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import FirebaseUserContext from '../../context/firebase-user';
 
 import './header.styles.scss';
 
-const Header = () => {
-  const currentUser = useContext(FirebaseUserContext);
-
-  console.log('Current user from header component', currentUser);
-
+const Header = ({ currentUser, ...props }) => {
   return (
     <div className="header">
       <Link className="logo-container" to="/">
@@ -40,4 +37,8 @@ const Header = () => {
   );
 };
 
-export default Header;
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
+export default connect(mapStateToProps, null)(Header);
