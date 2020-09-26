@@ -1,14 +1,13 @@
-import { auth } from '../../firebase/firebase.utils';
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { connect } from 'react-redux';
-
+import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
-import FirebaseUserContext from '../../context/firebase-user';
-
+import { auth } from '../../firebase/firebase.utils';
+import CartIcon from '../cart-icon/cart-icon.component';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import './header.styles.scss';
 
-const Header = ({ currentUser, ...props }) => {
+const Header = ({ currentUser, hidden, ...props }) => {
   return (
     <div className="header">
       <Link className="logo-container" to="/">
@@ -32,13 +31,16 @@ const Header = ({ currentUser, ...props }) => {
             SIGN IN
           </Link>
         )}
+        <CartIcon />
       </div>
+      {hidden ? null : <CartDropdown />}
     </div>
   );
 };
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+  currentUser,
+  hidden,
 });
 
 export default connect(mapStateToProps, null)(Header);
