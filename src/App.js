@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import WebFont from 'webfontloader';
+
 import './App.css';
 import Header from './components/header/header.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
@@ -30,6 +32,14 @@ function App({ setCurrentUser, currentUser, ...props }) {
     return () => {
       unsubscribeFromAuth();
     };
+  }, []);
+
+  useEffect(() => {
+    WebFont.load({
+      google: {
+        families: ['Open Sans Condensed:300', 'sans-serif']
+      }
+    });
   }, []);
 
   return (
