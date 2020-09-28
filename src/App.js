@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import WebFont from 'webfontloader';
+import { createStructuredSelector } from 'reselect';
 
 import './App.css';
 import Header from './components/header/header.component';
@@ -10,6 +10,7 @@ import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import { setCurrentUser } from './redux/user/user.action';
+import { selectCurrentUser } from './redux/user/user.selector';
 
 function App({ setCurrentUser, currentUser, ...props }) {
   useEffect(() => {
@@ -34,14 +35,6 @@ function App({ setCurrentUser, currentUser, ...props }) {
     };
   }, []);
 
-  useEffect(() => {
-    WebFont.load({
-      google: {
-        families: ['Open Sans Condensed:300', 'sans-serif']
-      }
-    });
-  }, []);
-
   return (
     <div>
       <Header />
@@ -60,8 +53,8 @@ function App({ setCurrentUser, currentUser, ...props }) {
   );
 }
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({
