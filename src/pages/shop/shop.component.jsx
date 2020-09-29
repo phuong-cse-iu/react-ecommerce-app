@@ -1,9 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-
-import SHOP_DATA from './shop.data.js';
-
 import CollectionPreview from '../../components/collection-preview/collection-preview';
 import { selectShopCollections } from '../../redux/shop/shop.selector';
 
