@@ -1,11 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { Route, withRouter, Switch } from 'react-router-dom';
 
 import CollectionOverview from '../../components/collections-overview/collections-overview.component';
 import CollectionPage from '../collection/collection.component';
-import { selectShopCollectionsPage } from '../../redux/shop/shop.selector';
 
 const ShopPage = ({ match }) => {
   console.log(`Match ${match.path}`);
