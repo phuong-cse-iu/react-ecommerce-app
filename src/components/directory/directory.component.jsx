@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import MenuItem from '../menu-item/menu-item.component';
 
-import './directory.styles.scss';
+import { DirectoryContainer } from './directory.styles';
 import { selectDirectorySections } from '../../redux/directory/directory.selector';
 
 class Directory extends React.Component {
@@ -14,11 +14,11 @@ class Directory extends React.Component {
 
   render() {
     return (
-      <div className="directory-menu">
+      <DirectoryContainer>
         {this.props.sections.map(({ id, ...otherSectionProps }) => (
           <MenuItem key={id} {...otherSectionProps} />
         ))}
-      </div>
+      </DirectoryContainer>
     );
   }
 }
